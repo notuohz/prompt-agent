@@ -95,7 +95,7 @@ Assess what level they are at based on their description, generate the best poss
   const start = cleaned.indexOf('{')
   const end = cleaned.lastIndexOf('}')
   if (start === -1 || end === -1) {
-    return NextResponse.json({ error: 'Model did not return valid JSON', raw }, { status: 500 })
+    return NextResponse.json({ error: 'Model did not return valid JSON', raw, cleaned }, { status: 500 })
   }
 
   try {
