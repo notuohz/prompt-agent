@@ -66,7 +66,7 @@ Target AI: ${targetAI || 'Claude Code'}
 Assess what level they are at based on their description, generate the best possible prompt for their target AI, and provide level-up guidance.`
 
     const geminiRes = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
