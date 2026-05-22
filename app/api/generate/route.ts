@@ -89,14 +89,21 @@ Assess what level they are at based on their description, generate the best poss
     const geminiData = await geminiRes.json()
     const raw = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || ''
 
-    const start = raw.indexOf('{')
-    const end = raw.lastIndexOf('}')
-    if (start === -1 || end === -1) {
-      return NextResponse.json({ error: 'Model did not return valid JSON', raw }, { status: 500 })
-    }
+  // Strip markdown fences if present
+  const cleaned = raw.replace(/```json\s*/gi, '').replace(/```\s*/gi, '').trim()
 
-    const parsed = JSON.parse(raw.substring(start, end + 1))
+  const start = cleaned.indexOf('{')
+  const end = cleaned.lastIndexOf('}')
+  if (start === -1 || end === -1) {
+    return NextResponse.json({ error: 'Model did not return valid JSON', raw }, { status: 500 })
+  }
+
+  try {
+    const parsed = JSON.parse(cleaned.substring(start, end + 1))
     return NextResponse.json(parsed)
+  } catch {
+    return NextResponse.json({ error: 'JSON parse failed', raw }, { status: 500 })
+  }
 
   } catch (e: unknown) {
     const message = e instanceof Error ? e.message : 'Unknown error'
