@@ -75,7 +75,7 @@ Assess what level they are at based on their description, generate the best poss
           contents: [{ role: 'user', parts: [{ text: userMessage }] }],
           generationConfig: {
             temperature: 0.7,
-            maxOutputTokens: 1500,
+            maxOutputTokens: 3000,
           }
         })
       }
